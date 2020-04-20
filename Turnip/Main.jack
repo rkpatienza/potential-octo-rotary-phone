@@ -1,0 +1,36 @@
+// Tests the Turnip class
+class Main {
+    function void main() {
+        var Turnip a;
+        var int buy, amount, i, investment, profit;
+        var Array prices;
+        let prices = Array.new(6);
+        
+        // Gathering data
+        let buy = Keyboard.readInt("Enter buying price (bells) for turnips: ");
+        do Output.println();
+        let amount = Keyboard.readInt("Enter number of turnips purchased: ");
+        do Output.println();
+        let i = 0;
+        do Output.printString("Please enter the 6 prices observed (in order) for the week!");
+        do Output.println();
+        while (i < 6) {
+            let prices[i] = Keyboard.readInt("Enter price: ");
+            let i = i + 1;
+        }
+        do Output.println();
+
+        // Processing and printing data
+        let a = Turnip.new(buy, amount, prices);
+        do a.determinePattern();
+        let investment = a.calcInvestment();
+        let profit = a.calcMaxProfit();
+        do Output.printString("Amount of bells invested: ");
+        do Output.printInt(investment);
+        do Output.println();
+        do Output.printString("Maximum bells possible to be made: ");
+        do Output.printInt(profit);
+        do Output.println();
+        return;
+    }
+}

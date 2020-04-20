@@ -1,0 +1,93 @@
+/** 
+This Turnip class implements a simple turnip price analyzer in Jack for 
+the Animal Crossing video game. It takes in a buying price (in bells per turnip),
+the amount of turnips purchased, and a list of 6 prices.
+
+It can calculate how much was spent on turnips, figure out if the list entered follows
+a spike, decrease, or random pattern, and it will calculate the maximum profit to be made
+in bells.
+
+This implementation assumes that there are only 3 patterns, and that there are only
+6 prices to keep track of in a given week.
+*/
+class Turnip {
+    field int buyPrice, numPurchased;
+    field Array prices;
+
+    /* Constructor */
+    constructor Turnip new(int buy, int count, Array pattern) {
+        let buyPrice = buy;
+        let numPurchased = count;
+        let prices = pattern;
+        return this;
+    }
+    /* dispose Turnip */
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    /* Calculate bells spent */    
+    method int calcInvestment() {
+        return Math.multiply(buyPrice, numPurchased);
+    }
+
+    /* Calculate maximum profit */
+    method int calcMaxProfit() {
+        var int max, count;
+        let count = 0;
+        let max = 0;
+        while (count < 6) {
+            let max = Math.max(max, prices[count]);
+            let count = count + 1;
+        }
+        return Math.multiply(max, numPurchased);
+    }
+
+    /* Determine pattern for the given sequence of prices */
+    method void determinePattern(){
+        /* Counters for consecutive increases/decreases encountered */
+        var int consecutiveInc, consecutiveDec;
+        /* Keeps max amount of consecutive inc/dec */
+        var int maxInc, maxDec;
+        var int i;
+        let i = 0;
+        let consecutiveInc = 0;
+        let consecutiveDec = 0;
+        /* Processing prices array */
+        while (i < 5) {
+            if(prices[i] < prices[i+1]) {
+                let consecutiveDec = 0;
+                let consecutiveInc = consecutiveInc + 1;
+                if(consecutiveInc > maxInc) {
+                    let maxInc = consecutiveInc;
+                }
+            }
+            if (prices[i] > prices[i+1]) {
+                let consecutiveInc = 0;
+                let consecutiveDec = consecutiveDec + 1;
+                if(consecutiveDec > maxDec) {
+                    let maxDec = consecutiveDec;
+                }
+            }
+        let i = i + 1;
+        }
+
+    /* Determining pattern */
+    if (maxInc > 1) {
+        do Output.printString("Pattern is spike pattern.");
+        do Output.println();
+    }
+    if (maxInc = 0) {
+        if (maxDec > 1) {
+        do Output.printString("Pattern is decreasing pattern.");
+        do Output.println();
+        }
+    }
+    if (maxInc = 1) {
+        do Output.printString("Pattern is random pattern.");
+        do Output.println();
+    }
+    return;
+    }
+}
